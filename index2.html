@@ -1,0 +1,73 @@
+<html>
+<header></header>
+
+<body>
+    <div id="vue2">
+        <input type="text" v-model="userProfile.name" placeholder="Username">
+        <input type="email" v-model="userProfile.email" placeholder="email@email.com">
+        <input type="age" v-model="userProfile.age" placeholder="Age">
+        <div v-for="(value, key) in userProfile">
+            {{ key }}: {{ value }}
+        </div>
+    </div>
+    <div id="todo-list-example">
+        <input v-model="newTodoText" v-on:keyup.enter="addNewTodo" placeholder="Add a todo">
+        <ul>
+            <li is="todo-item" v-for="(todo, index) in todos" v-bind:key="todo.id" v-bind:title="todo.title" v-on:remove="todos.splice(index, 1)"></li>
+        </ul>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#vue2',
+            data: {
+                userProfile: {
+                    name: 'Anika',
+                    email: 'zbbzf@hotmal'
+                }
+            }
+        })
+        Vue.set(vm.userProfile, 'age', 27);
+
+        Vue.component('todo-item', {
+            template: '\
+                        <li>\
+                        {{ title }}\
+                        <button v-on:click="$emit(\'remove\')">X</button>\
+                        </li>\
+                    ',
+            props: ['title']
+        })
+        new Vue({
+            el: '#todo-list-example',
+            data: {
+                newTodoText: '',
+                todos: [
+                    {
+                        id: 1,
+                        title: 'Do the dishes',
+                    },
+                    {
+                        id: 2,
+                        title: 'Take out the trash',
+                    },
+                    {
+                        id: 3,
+                        title: 'Mow the lawn'
+                    }
+                ],
+                nextTodoId: 4
+            },
+            methods: {
+                addNewTodo: function () {
+                    this.todos.push({
+                        id: this.nextTodoId++,
+                        title: this.newTodoText
+                    })
+                    this.newTodoText = ''
+                }
+            }
+        })
+    </script>
+</body>
+</html>

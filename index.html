@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <div v-bind:class="classObject">TEST
+    </div>
+    <div id="demo01">
+        <my-component class="baz boo"></my-component>
+        <ol>
+            <!-- Create an instance of the todo-item component -->
+            <todo-item></todo-item>
+        </ol>
+    </div>
+    <div id="vue1">
+        <h1 v-if="ok">Yes</h1>
+        <h1 v-else>No</h1>
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Enter your username" key="username-input">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your email address" key="email-input">
+        </template>
+    </div>
+    <div>
+        <ul id="example-1">
+            <li v-for="item in items">
+                {{ item.message }}
+            </li>
+        </ul>
+    </div>
+    
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            data: {
+                isActive: true,
+                error: null
+            },
+            computed: {
+                classObject: function () {
+                    return {
+                        active: this.isActive && !this.error,
+                        'text-danger': this.error && this.error.type === 'fatal'
+                    }
+                }
+            }
+        });
+
+        Vue.component('my-component', {
+            template: '<p class="foo bar">Hi</p>'
+        });
+
+        Vue.component('todo-item', {
+            template: '<li>This is a todo</li>'
+        });
+
+        new Vue({ el: '#demo01' });
+
+        new Vue({
+            el: '#vue1',
+            data: {
+                ok: true,
+                loginType: 'username'
+            }
+        });
+
+
+        var example1 = new Vue({
+            el: '#example-1',
+            data: {
+                items: [
+                    { message: 'Foo' },
+                    { message: 'Bar' }
+                ]
+            }
+        })
+        Vue.set(example1.items, 0, { message: 'tset' });
+        //example1.items.push({ message: 'Baz' });
+        //example1.items.pop();
+        example1.items[1] = 'tert';
+        //example1.items = example1.items.filter(function (item) {
+        //    return item.message.match(/Bar/)
+        //});
+       
+    </script>
+
+</body>
+
+</html>
